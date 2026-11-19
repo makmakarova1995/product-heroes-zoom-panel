@@ -1,0 +1,1389 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Комнаты · текущая встреча</title>
+<style>:root{font-family:Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;color:#202124;background:#f5f7fb}*{box-sizing:border-box}body{margin:0;padding:18px}.card{max-width:620px;margin:0 auto;background:#fff;border-radius:18px;padding:22px;box-shadow:0 12px 36px rgba(17,24,39,.12)}h1{font-size:25px;margin:0 0 6px}.sub{color:#667085;margin:0 0 18px;line-height:1.4}.controls{display:grid;grid-template-columns:1fr auto;gap:10px;margin-bottom:12px}button{border:0;border-radius:12px;padding:14px 16px;font-size:16px;font-weight:700;cursor:pointer}.primary{background:#2d8cff;color:#fff;grid-column:1/-1}.secondary{background:#e9eef7;color:#172033;grid-column:1/-1}.ghost{background:#f2f4f7;color:#344054;padding:10px 12px;font-size:14px}button:disabled{opacity:.5;cursor:not-allowed}.operator-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;grid-column:1/-1}.operator-grid button{padding:11px 10px;font-size:13px}.danger{background:#fee4e2;color:#b42318}.voice{background:#e9eef7;color:#475467;transition:background-color .2s cubic-bezier(.2,0,0,1),color .2s cubic-bezier(.2,0,0,1),transform .15s cubic-bezier(.2,0,0,1)}.voice.is-active{background:#12b76a;color:#fff}.voice:active{transform:scale(.98)}.schedule-card{grid-column:1/-1;border:1px solid #d0d5dd;border-radius:12px;padding:12px;background:#f8fafc}.schedule-main{display:flex;justify-content:space-between;gap:12px;font-weight:700}.schedule-actions{display:flex;gap:8px;margin-top:10px}.schedule-actions button{flex:1}.schedule-custom{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:8px}.schedule-custom input{min-width:0;border:1px solid #d0d5dd;border-radius:10px;padding:10px 12px;font-size:14px;color:#344054;background:#fff}.schedule-custom button{padding:10px 12px;font-size:14px}.schedule-warning{margin-top:8px;color:#667085;font-size:12px}.schedule-warning.is-stale{color:#b42318;font-weight:700}.status{border-radius:12px;padding:12px 14px;margin:12px 0;line-height:1.4}.info{background:#eef4ff;color:#1849a9}.ok{background:#ecfdf3;color:#067647}.err{background:#fef3f2;color:#b42318}.list{border-top:1px solid #eaecf0;margin-top:14px}.item{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid #eaecf0;font-size:14px}.item small{display:block;color:#98a2b3;margin-top:3px}.good{color:#067647;text-align:right}.bad{color:#b42318;text-align:right}.muted{color:#667085}.participant-actions{display:flex;flex-direction:column;align-items:flex-end;gap:7px}.team-picker{display:flex;align-items:center;gap:6px;color:#667085;font-size:12px}.team-picker select{border:1px solid #d0d5dd;border-radius:8px;padding:6px 8px;background:#fff;color:#344054;font-size:12px}.send-one{background:#eef4ff;color:#1849a9;padding:8px 10px;font-size:12px;max-width:210px}.unrecognized{margin-top:16px;padding:14px;border:1px solid #fda29b;border-radius:14px;background:#fff7f6}.unrecognized h2{margin:0 0 6px;font-size:18px;color:#b42318}.unrecognized p{margin:0 0 8px;color:#667085;font-size:13px;line-height:1.4}.manual-item:last-child{border-bottom:0}.manual-send{background:#fef3f2;color:#b42318}.overall-summary{font-weight:700}.identity-warning{margin:14px 0;padding:12px 14px;border:1px solid #f79009;border-radius:12px;background:#fffaeb;color:#b54708}.identity-warning h2{margin:0 0 6px;font-size:16px}.identity-warning p{margin:0 0 6px;font-size:13px;line-height:1.4}.identity-warning small{word-break:break-all}.device-action{display:flex;flex-direction:column;align-items:flex-end;gap:5px;padding:6px 0;border-bottom:1px dashed #eaecf0}.device-action:last-of-type{border-bottom:0}.team-block{margin-top:14px;border:1px solid #d0d5dd;border-radius:14px;overflow:hidden;background:#fff}.team-block-warning{border-color:#f79009;background:#fffcf5}.team-header{display:flex;justify-content:space-between;gap:12px;padding:12px 14px;background:#f8fafc;border-bottom:1px solid #eaecf0;font-size:16px}.team-block-warning .team-header{background:#fffaeb}.team-warning{display:block;padding:9px 14px;color:#b54708;font-size:13px;font-weight:700;border-bottom:1px solid #fedf89}.team-members{padding:0 14px}.team-members .item:last-child{border-bottom:0}.foot{color:#667085;font-size:13px;margin:14px 0 0}.diag{margin-top:14px;font-size:12px;color:#667085}.diag summary{cursor:pointer}.diag pre{white-space:pre-wrap;word-break:break-all;background:#f8fafc;padding:10px;border-radius:10px;max-height:280px;overflow:auto;font-size:11px}</style></head><body>
+<main class="card"><h1>Комнаты · текущая встреча</h1>
+<div class="controls"><section class="schedule-card"><div class="schedule-main"><span id="schedule-duration">—</span><span id="schedule-deadline">Нет данных</span></div><div class="schedule-actions"><button id="extend-5" class="ghost" disabled>+5 минут</button><button id="extend-10" class="ghost" disabled>+10 минут</button><button id="extend-20" class="ghost" disabled>+20 минут</button></div><div class="schedule-custom"><input id="extend-custom-minutes" type="number" min="1" max="720" step="1" inputmode="numeric" placeholder="Сколько минут добавить"><button id="extend-custom" class="ghost" disabled>Добавить</button></div><div id="schedule-warning" class="schedule-warning">Стандартное время — 20 минут.</div></section><button id="refresh" class="ghost" disabled>Обновить состав</button><button id="split" class="primary" disabled>Разделить по командам</button><button id="gather" class="secondary" disabled>Собрать всех</button><div class="operator-grid"><button id="mute-all" class="danger" disabled>Замьютить всех</button><button id="voice-broadcast" class="voice" aria-pressed="false" disabled>Говорить во все комнаты</button></div></div>
+<div id="status" class="status info">Подключаюсь к встрече Zoom…</div><div id="matches" class="list"></div>
+<p class="foot">Комнаты открываются на 20 минут. Организатор может добавить быстрые +5, +10, +20 или ввести любое целое число минут. Продление применяется ко всем командам.</p>
+<details class="diag"><summary>Диагностика</summary><pre id="diag">Загрузка…</pre></details></main>
+<script id="panel-data" type="application/json">{"season":"dynamic","assignments":[],"monitoringMissing":[],"liveMapUrl":"https://flow.rick.ai/webhook/zoom-live-participants-universal","timerUrl":"https://flow.rick.ai/webhook/zoom-room-timer-universal","meetingId":"","meetingRegistry":null}</script>
+<script>(function(){var started=false;var timer;function start(){if(started)return;started=true;clearTimeout(timer);(function panelMain() {
+  const data = JSON.parse(document.getElementById("panel-data").textContent);
+  let assignments = data.assignments || [];
+  let currentMeetingId = "";
+  const $ = (id) => document.getElementById(id);
+  const els = {
+    split: $("split"),
+    gather: $("gather"),
+    muteAll: $("mute-all"),
+    voiceBroadcast: $("voice-broadcast"),
+    refresh: $("refresh"),
+    scheduleDuration: $("schedule-duration"),
+    scheduleDeadline: $("schedule-deadline"),
+    scheduleWarning: $("schedule-warning"),
+    extend5: $("extend-5"),
+    extend10: $("extend-10"),
+    extend20: $("extend-20"),
+    customMinutes: $("extend-custom-minutes"),
+    extendCustom: $("extend-custom"),
+    status: $("status"),
+    list: $("matches"),
+    diag: $("diag")
+  };
+  let ready = false;
+  let busy = false;
+  let currentMatches = [];
+  let lastConnectionError = null;
+  let identityWarnings = [];
+  let refreshRetryGeneration = 0;
+  let lateAssignBusy = false;
+  let backgroundRefreshBusy = false;
+  let gatherRequested = false;
+  let voiceBroadcasting = false;
+  let meetingContext = null;
+  let meetingUuidContext = null;
+  let userContext = null;
+  let timerOperatorAllowed = false;
+  let roomTimer = null;
+  let autoCloseInFlight = false;
+  let autoClosedDeadline = null;
+  const assignedToRoom = new Set();
+  const pendingRoomByParticipant = new Map();
+  const manualTeamByIdentity = new Map();
+  let sharedTimerSyncBusy = false;
+  let lastSharedTimerSyncAt = 0;
+  const currentRoomByParticipant = new Map();
+  const unknownFirstSeenAt = new Map();
+
+  const diag = {
+    stage: "script_load",
+    sdkScriptError: window.__zoomSdkScriptError === true,
+    sdkType: typeof window.zoomSdk,
+    href: location.href,
+    origin: (function () { try { return String(self.origin); } catch (e) { return "n/a"; } })(),
+    sandboxed: null,
+    liveMapUrl: data.liveMapUrl,
+    meetingRegistry: null,
+    meetingContext: null,
+    timer: null,
+    configAttempts: [],
+    configResult: null,
+    participants: null,
+    connections: null,
+    lastError: null
+  };
+  diag.sandboxed = diag.origin === "null";
+
+  function describeError(error) {
+    if (!error) return { message: "unknown" };
+    if (typeof error === "string") return { message: error };
+    const out = { name: error.name, message: error.message, code: error.code, status: error.status };
+    try {
+      const raw = JSON.stringify(error);
+      if (raw && raw !== "{}") out.raw = raw.slice(0, 300);
+    } catch (e) {}
+    if (error.stack) out.stack = String(error.stack).split("\n").slice(0, 3).join(" | ").slice(0, 300);
+    return out;
+  }
+
+  function renderDiag() {
+    if (els.diag) els.diag.textContent = JSON.stringify(diag, null, 2);
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function normalizeName(value) {
+    return String(value || "")
+      .toLowerCase()
+      .replace(/ё/g, "е")
+      .replace(/[^a-zа-я0-9]+/gi, " ")
+      .trim()
+      .replace(/\s+/g, " ");
+  }
+
+  function isRoutableMatch(match) {
+    return match && match.state === "matched";
+  }
+
+  function normalizedRole(participant) {
+    return String((participant && participant.role) || "")
+      .toLowerCase()
+      .replace(/[ _-]/g, "");
+  }
+
+  function isStaffParticipant(participant) {
+    const role = normalizedRole(participant);
+    return role === "host" || role === "cohost";
+  }
+
+  function isStaffMatch(match) {
+    // Zoom role is authoritative: host/cohost are never hero candidates and
+    // must never be assigned to breakout rooms, even if a stale personal
+    // participantUUID link exists for this device.
+    return isStaffParticipant(match && match.participant);
+  }
+
+  function roomParticipantIsJoined(participant) {
+    const status = String((participant && (participant.participantStatus || participant.status)) || "").toLowerCase();
+    return status === "joined";
+  }
+
+  function isValidTeamNumber(value) {
+    const teamNumber = Number(value);
+    return Number.isInteger(teamNumber) && teamNumber >= 1 && teamNumber <= 100;
+  }
+
+  function targetTeamNumber(match) {
+    const participantUUID = String(participantId(match && match.participant) || "");
+    const identityKey = manualIdentityKey(match);
+    const manualTeam = manualTeamByIdentity.has(identityKey) ? manualTeamByIdentity.get(identityKey) : pendingRoomByParticipant.get(participantUUID);
+    if (isValidTeamNumber(manualTeam)) return Number(manualTeam);
+    const assignmentTeam = match && match.assignment && match.assignment.teamNumber;
+    if (isValidTeamNumber(assignmentTeam)) return Number(assignmentTeam);
+    return null;
+  }
+
+  function participantLabel(match) {
+    if (match && match.assignment) {
+      return match.assignment.heroName || ("hero_id " + match.assignment.heroId);
+    }
+    return (match && match.participant && match.participant.screenName)
+      || participantId(match && match.participant)
+      || "неизвестный участник";
+  }
+
+  function teamFromRoomName(value) {
+    const match = String(value || "").match(/(?:команда|team)\s*([1-9]\d{0,2})/i);
+    const teamNumber = match ? Number(match[1]) : null;
+    return Number.isInteger(teamNumber) && teamNumber >= 1 && teamNumber <= 100 ? teamNumber : null;
+  }
+
+  function syncCurrentRoomAssignments(rooms) {
+    currentRoomByParticipant.clear();
+    assignedToRoom.clear();
+    for (const room of rooms || []) {
+      const teamNumber = teamFromRoomName(room && room.name);
+      if (!teamNumber) continue;
+      for (const participant of (Array.isArray(room.participants) ? room.participants : [])) {
+        const participantUUID = participantId(participant);
+        if (!participantUUID) continue;
+        const participantKey = String(participantUUID);
+        if (!pendingRoomByParticipant.has(participantKey)) {
+          pendingRoomByParticipant.set(participantKey, teamNumber);
+        }
+        if (!roomParticipantIsJoined(participant)) continue;
+        currentRoomByParticipant.set(participantKey, teamNumber);
+        const pendingTeam = pendingRoomByParticipant.get(participantKey);
+        if (pendingTeam === undefined || Number(pendingTeam) === teamNumber) {
+          assignedToRoom.add(participantKey);
+        }
+      }
+    }
+  }
+
+  function participantList(response) {
+    if (Array.isArray(response)) return response;
+    if (response && Array.isArray(response.participants)) return response.participants;
+    if (response && response.result && Array.isArray(response.result.participants)) return response.result.participants;
+    throw new Error("ZOOM_PARTICIPANTS_SHAPE_UNKNOWN: " + JSON.stringify(response));
+  }
+
+  function roomList(response) {
+    if (response && Array.isArray(response.rooms)) return response.rooms;
+    if (response && response.result && Array.isArray(response.result.rooms)) return response.result.rooms;
+    throw new Error("ZOOM_ROOMS_SHAPE_UNKNOWN: " + JSON.stringify(response));
+  }
+
+  function setStatus(message, kind) {
+    els.status.className = "status " + (kind || "info");
+    els.status.textContent = message;
+  }
+
+  function setBusy(value) {
+    busy = value;
+    els.split.disabled = value || !ready;
+    els.gather.disabled = value || !ready;
+    els.muteAll.disabled = value || !ready;
+    els.voiceBroadcast.disabled = value || !ready;
+    els.refresh.disabled = value || !ready;
+    const canExtend = ready && timerOperatorAllowed && roomTimer && roomTimer.status === "active";
+    els.extend5.disabled = value || !canExtend;
+    els.extend10.disabled = value || !canExtend;
+    els.extend20.disabled = value || !canExtend;
+    els.customMinutes.disabled = value || !canExtend;
+    els.extendCustom.disabled = value || !canExtend;
+  }
+
+  function roomId(room) {
+    return room && (room.breakoutRoomId || room.uuid || room.id);
+  }
+
+  function normalizeParticipantUuid(value) {
+    return String(value || "").trim().replace(/^\{|\}$/g, "").toUpperCase();
+  }
+
+  function participantId(participant) {
+    return normalizeParticipantUuid(participant && (participant.participant || participant.participantUUID || participant.participantUuid || participant.uuid || participant.participantId));
+  }
+
+  function manualIdentityKey(match) {
+    const heroId = Number(match && match.assignment && match.assignment.heroId) || Number(match && match.connection && match.connection.hero_id) || 0;
+    if (heroId > 0) return "hero:" + heroId;
+    return "";
+  }
+
+  function manualTeamsStorageKey() {
+    const meetingId = String((meetingContext && meetingContext.meetingID) || "").replace(/\D/g, "");
+    return meetingId ? "zoom-universal-manual-teams:" + meetingId : null;
+  }
+
+  function saveManualTeams() {
+    const key = manualTeamsStorageKey();
+    if (!key) return;
+    try { localStorage.setItem(key, JSON.stringify(Array.from(manualTeamByIdentity.entries()))); }
+    catch (error) { diag.manualTeamStorageWarning = describeError(error); }
+  }
+
+  function loadManualTeams() {
+    const key = manualTeamsStorageKey();
+    if (!key) return;
+    try {
+      const rows = JSON.parse(localStorage.getItem(key) || "[]");
+      for (const row of Array.isArray(rows) ? rows : []) {
+        if (Array.isArray(row) && row.length === 2 && String(row[0]).startsWith("hero:") && isValidTeamNumber(row[1])) manualTeamByIdentity.set(String(row[0]), Number(row[1]));
+      }
+    } catch (error) { diag.manualTeamStorageWarning = describeError(error); }
+  }
+
+  function buildMatches(participants, connections) {
+    const assignmentByHero = new Map(assignments.map((assignment) => [String(assignment.heroId), assignment]));
+    const connectionByUuid = new Map(
+      connections
+        .filter((row) => row && row.active !== false && row.participant_uuid)
+        .map((row) => [normalizeParticipantUuid(row.participant_uuid), row])
+    );
+    const result = [];
+    const connectedHeroes = new Set();
+    const visibleParticipantUuids = new Set();
+
+    for (const participant of participants) {
+      const uuid = String(participantId(participant) || "");
+      if (!uuid) continue;
+      visibleParticipantUuids.add(uuid);
+      const connection = connectionByUuid.get(uuid);
+      if (isStaffParticipant(participant)) {
+        unknownFirstSeenAt.delete(uuid);
+        result.push({ assignment: null, participant, connection: null, state: "staff" });
+        continue;
+      }
+      if (!connection) {
+        const firstSeenAt = unknownFirstSeenAt.get(uuid) || Date.now();
+        unknownFirstSeenAt.set(uuid, firstSeenAt);
+        const waitingForWebhook = Date.now() - firstSeenAt < 20000;
+        result.push({ assignment: null, participant, connection: null, state: waitingForWebhook ? "pending-link" : "unknown" });
+        continue;
+      }
+      unknownFirstSeenAt.delete(uuid);
+      const assignment = assignmentByHero.get(String(connection.hero_id));
+      if (!assignment) {
+        result.push({ assignment: null, participant, connection, state: "no-team" });
+        continue;
+      }
+      connectedHeroes.add(String(assignment.heroId));
+      result.push({ assignment, participant, connection, state: "matched" });
+    }
+
+    for (const uuid of Array.from(unknownFirstSeenAt.keys())) {
+      if (!visibleParticipantUuids.has(uuid)) unknownFirstSeenAt.delete(uuid);
+    }
+
+    for (const assignment of assignments) {
+      if (!connectedHeroes.has(String(assignment.heroId))) {
+        result.push({ assignment, participant: null, connection: null, state: "missing" });
+      }
+    }
+    return result;
+  }
+
+  function renderMatches(participants, connections) {
+    currentMatches = buildMatches(participants, connections).sort((left, right) => {
+      const leftTeam = left.assignment ? Number(left.assignment.teamNumber) : Number.MAX_SAFE_INTEGER;
+      const rightTeam = right.assignment ? Number(right.assignment.teamNumber) : Number.MAX_SAFE_INTEGER;
+      if (leftTeam !== rightTeam) return leftTeam - rightTeam;
+      const stateOrder = { matched: 0, missing: 1, "no-team": 2, unknown: 3 };
+      const stateDiff = (stateOrder[left.state] ?? 9) - (stateOrder[right.state] ?? 9);
+      if (stateDiff) return stateDiff;
+      const leftName = left.assignment ? (left.assignment.heroName || ("Герой #" + left.assignment.heroId)) : ((left.participant && left.participant.screenName) || "");
+      const rightName = right.assignment ? (right.assignment.heroName || ("Герой #" + right.assignment.heroId)) : ((right.participant && right.participant.screenName) || "");
+      return String(leftName).localeCompare(String(rightName), "ru");
+    });
+
+    const selectableTeams = Array.from(new Set(
+      assignments
+        .map((assignment) => Number(assignment.teamNumber))
+        .filter((teamNumber) => Number.isInteger(teamNumber) && teamNumber > 0)
+    )).sort((a, b) => a - b);
+    const teams = new Map();
+    const unrecognizedRows = [];
+
+    for (const match of currentMatches) {
+      if (match.assignment) {
+        const teamNumber = Number(match.assignment.teamNumber);
+        if (!teams.has(teamNumber)) teams.set(teamNumber, []);
+        teams.get(teamNumber).push(match);
+        continue;
+      }
+
+      const label = match.participant && match.participant.screenName ? match.participant.screenName : "Участник Zoom";
+      const participantUUID = participantId(match.participant);
+      if (isStaffParticipant(match.participant)) {
+        unrecognizedRows.push("<div class=\"item\"><span><b>" + escapeHtml(label) + "</b><small>participantUUID " + escapeHtml(participantUUID) + "</small></span><span class=\"muted\">Общее подключение без персональной связи — в команды не распределяется</span></div>");
+        continue;
+      }
+
+      const reason = match.state === "no-team"
+        ? "Для hero_id нет команды"
+        : (match.state === "pending-link"
+          ? "Zoom обновляет связь после перехода между комнатами"
+          : "Вошёл без действующей персональной ссылки");
+      const savedTeam = targetTeamNumber(match);
+      const currentTeam = currentRoomByParticipant.get(String(participantUUID));
+      const initialTeam = isValidTeamNumber(savedTeam) ? Number(savedTeam) : (isValidTeamNumber(currentTeam) ? Number(currentTeam) : null);
+      if (initialTeam !== null) pendingRoomByParticipant.set(String(participantUUID), initialTeam);
+      const placeholder = initialTeam === null ? "<option value=\"\" selected disabled>Выберите команду</option>" : "";
+      const teamOptions = placeholder + selectableTeams.map((team) => "<option value=\"" + team + "\"" + (Number(team) === initialTeam ? " selected" : "") + ">Команда " + team + "</option>").join("");
+      const returnButton = initialTeam === null
+        ? "<button type=\"button\" class=\"send-one\" disabled>Сначала выберите команду</button>"
+        : "<button type=\"button\" class=\"send-one\" data-send-one-uuid=\"" + escapeHtml(participantUUID) + "\" data-send-one-team=\"" + escapeHtml(initialTeam) + "\">Вернуть в комнату</button>";
+      unrecognizedRows.push("<div class=\"item manual-item\"><span><b>" + escapeHtml(label) + "</b><small>participantUUID " + escapeHtml(participantUUID) + "</small><small class=\"bad\">" + escapeHtml(reason) + "</small></span><span class=\"participant-actions\"><label class=\"team-picker\">Распределить в комнату <select data-manual-team-uuid=\"" + escapeHtml(participantUUID) + "\">" + teamOptions + "</select></label>" + returnButton + "<small class=\"muted\">После выбора общая кнопка распределит участника вместе со всеми</small></span></div>");
+    }
+
+    const mainRows = [];
+    const matchedHeroes = new Set(currentMatches.filter((match) => isRoutableMatch(match)).map((match) => String(match.assignment.heroId))).size;
+    mainRows.push("<div class=\"item muted overall-summary\"><span>Распознано участников Zoom</span><span>" + escapeHtml(matchedHeroes) + " из " + escapeHtml(assignments.length) + "</span></div>");
+
+    if (identityWarnings.length) {
+      mainRows.push("<section class=\"identity-warning\"><h2>Конфликт связки participantUUID</h2><p>Эти подключения не распределяются автоматически, пока один participantUUID связан с разными hero_id. Остальные участники продолжают работать.</p><small>" + identityWarnings.map(escapeHtml).join(", ") + "</small></section>");
+    }
+
+    const orderedTeamNumbers = Array.from(teams.keys()).sort((a, b) => a - b);
+    for (const teamNumber of orderedTeamNumbers) {
+      const teamMatches = teams.get(teamNumber) || [];
+      const matchesByHero = new Map();
+      for (const match of teamMatches) {
+        const heroKey = String(match.assignment.heroId);
+        if (!matchesByHero.has(heroKey)) matchesByHero.set(heroKey, []);
+        matchesByHero.get(heroKey).push(match);
+      }
+      const expectedCount = matchesByHero.size;
+      const enteredCount = Array.from(matchesByHero.values()).filter((heroMatches) => heroMatches.some(isRoutableMatch)).length;
+      const needsRedistribution = enteredCount === 1 && expectedCount > 1;
+      const teamRows = [];
+
+      for (const heroMatches of matchesByHero.values()) {
+        const representative = heroMatches[0];
+        const heroName = representative.assignment.heroName || ("Герой #" + representative.assignment.heroId);
+        const routedDevices = heroMatches.filter(isRoutableMatch);
+        if (routedDevices.length) {
+          const deviceRows = routedDevices.map((match) => {
+            const device = match.participant.screenName || "Устройство Zoom";
+            const participantUUID = participantId(match.participant);
+            const savedTeam = targetTeamNumber(match);
+            const currentTeam = currentRoomByParticipant.get(String(participantUUID));
+            const initialTeam = isValidTeamNumber(savedTeam) ? Number(savedTeam) : (isValidTeamNumber(currentTeam) ? Number(currentTeam) : Number(teamNumber));
+            if (!pendingRoomByParticipant.has(String(participantUUID))) pendingRoomByParticipant.set(String(participantUUID), initialTeam);
+            const teamOptions = selectableTeams.map((team) => "<option value=\"" + team + "\"" + (Number(team) === initialTeam ? " selected" : "") + ">Команда " + team + "</option>").join("");
+            return "<div class=\"device-action\"><span class=\"good\">✓ В Zoom: " + escapeHtml(device) + "</span><small>participantUUID " + escapeHtml(participantUUID) + "</small><label class=\"team-picker\">Распределить в комнату <select data-team-target-uuid=\"" + escapeHtml(participantUUID) + "\">" + teamOptions + "</select></label><button type=\"button\" class=\"send-one\" data-send-one-uuid=\"" + escapeHtml(participantUUID) + "\" data-send-one-team=\"" + escapeHtml(initialTeam) + "\">Вернуть в комнату</button></div>";
+          }).join("");
+          const connectionLabel = routedDevices.length > 1 ? " · " + routedDevices.length + " подключения" : "";
+          teamRows.push("<div class=\"item hero-row\"><span><b>" + escapeHtml(heroName) + "</b><small>hero_id " + escapeHtml(representative.assignment.heroId) + escapeHtml(connectionLabel) + "</small></span><span class=\"participant-actions\">" + deviceRows + "<small class=\"muted\">Все подключения героя направляются в одну команду</small></span></div>");
+        } else {
+          teamRows.push("<div class=\"item hero-row\"><span><b>" + escapeHtml(heroName) + "</b><small>hero_id " + escapeHtml(representative.assignment.heroId) + "</small></span><span class=\"bad\">Не вошёл</span></div>");
+        }
+      }
+
+      const warning = needsRedistribution ? "<span class=\"team-warning\">⚠ Вошёл один человек — возможно, команду нужно объединить</span>" : "";
+      mainRows.push("<section class=\"team-block" + (needsRedistribution ? " team-block-warning" : "") + "\"><div class=\"team-header\"><strong>Команда " + escapeHtml(teamNumber) + "</strong><span>человек " + escapeHtml(enteredCount) + "/" + escapeHtml(expectedCount) + "</span></div>" + warning + "<div class=\"team-members\">" + teamRows.join("") + "</div></section>");
+    }
+
+    if (unrecognizedRows.length) {
+      mainRows.push("<section class=\"unrecognized\"><h2>Не распознаны</h2><p>Аварийный режим: временно назначьте комнату напрямую по participantUUID. Команда в мониторинге не изменится.</p>" + unrecognizedRows.join("") + "</section>");
+    }
+
+    els.list.innerHTML = mainRows.join("");
+  }
+
+  async function fetchConnections() {
+    diag.stage = "fetch_connections";
+    const meetingId = String((meetingContext && meetingContext.meetingID) || "").replace(/\D/g, "");
+    const meetingUuid = String((meetingUuidContext && meetingUuidContext.meetingUUID) || "").trim();
+    const parentUuid = String((meetingUuidContext && meetingUuidContext.parentUUID) || "").trim();
+    if (!meetingId && !meetingUuid && !parentUuid) throw new Error("MEETING_SCOPE_MISSING: Zoom SDK не вернул meetingID или meetingUUID");
+    const requesterParticipantUuid = normalizeParticipantUuid(userContext && (userContext.participantId || userContext.participantUUID || userContext.participantUuid));
+    if (!requesterParticipantUuid) throw new Error("LIVE_MAP_AUTH_REQUIRED: Zoom не вернул participant UUID организатора");
+    const requestBody = { meeting_id: meetingId, meeting_uuid: meetingUuid, parent_uuid: parentUuid, requester_participant_uuid: requesterParticipantUuid };
+    const url = data.liveMapUrl;
+    let response;
+    try {
+      response = await fetch(url, { method: "POST", cache: "no-store", credentials: "omit", headers: {"Content-Type":"application/json"}, body: JSON.stringify(requestBody) });
+    } catch (error) {
+      diag.connections = { url: url, network: describeError(error) };
+      throw new Error("Запрос к " + data.liveMapUrl + " не выполнен (" + ((error && error.message) || String(error)) + "). Проверьте: вебхук опубликован в n8n, домен flow.rick.ai есть в Domain Allow List приложения Zoom, страница в CSP sandbox (origin=" + diag.origin + ").");
+    }
+    diag.connections = { url: url, status: response.status };
+    if (!response.ok) throw new Error("Вебхук связок вернул HTTP " + response.status + " по адресу " + data.liveMapUrl + ". Скорее всего workflow с ним не опубликован.");
+    const payload = await response.json();
+    if (payload && (payload.ok === false || payload.error || (Array.isArray(payload.errors) && payload.errors.length))) {
+      throw new Error("Вебхук связок вернул ошибку: " + JSON.stringify(payload.error || payload.errors || payload));
+    }
+    identityWarnings = Array.isArray(payload && payload.ambiguous_participant_uuids)
+      ? payload.ambiguous_participant_uuids.map(normalizeParticipantUuid).filter(Boolean)
+      : [];
+    diag.connections.ambiguousParticipantUuids = identityWarnings.slice();
+    const rows = Array.isArray(payload) ? payload : (payload && Array.isArray(payload.participants) ? payload.participants : (payload && Array.isArray(payload.data) ? payload.data : []));
+    if (payload && Array.isArray(payload.assignments)) assignments = payload.assignments.map(row => ({ heroId: Number(row.hero_id), teamNumber: Number(row.team_number) || null, heroName: String(row.full_name || ("Герой #" + row.hero_id)) })).filter(row => row.heroId > 0);
+    return rows;
+  }
+
+  async function refreshParticipants(silent) {
+    if (!ready) return [];
+    diag.stage = "getMeetingParticipants";
+    const participants = participantList(await withTimeout(zoomSdk.getMeetingParticipants(), 5000, "getMeetingParticipants"));
+    diag.participants = participants.map((participant) => ({ uuid: participantId(participant), role: participant.role }));
+    let connections = [];
+    lastConnectionError = null;
+    try {
+      connections = await fetchConnections();
+    } catch (error) {
+      lastConnectionError = error;
+      diag.lastError = describeError(error);
+    }
+    try {
+      const currentRooms = await getRooms();
+      syncCurrentRoomAssignments(currentRooms.rooms);
+      diag.rooms = {
+        state: currentRooms.state || null,
+        count: currentRooms.rooms.length,
+        assignedParticipants: currentRoomByParticipant.size
+      };
+    } catch (error) {
+      currentRoomByParticipant.clear();
+      assignedToRoom.clear();
+      diag.rooms = { error: describeError(error) };
+    }
+    renderMatches(participants, connections);
+    if (!lastConnectionError) diag.stage = "ready";
+    renderDiag();
+    if (lastConnectionError) {
+      setStatus("Zoom SDK работает, в зале подключений: " + participants.length + ". Связки не загрузились: " + lastConnectionError.message, "err");
+      return participants;
+    }
+    const pendingIdentity = currentMatches.filter((match) => match.state === "pending-link" && !isStaffMatch(match));
+    const unmatchedJoined = currentMatches.filter((match) => !isRoutableMatch(match) && match.state !== "missing" && match.state !== "pending-link" && !isStaffMatch(match));
+    const missingRoster = currentMatches.filter((match) => match.state === "missing");
+    const matchedDevices = currentMatches.filter((match) => isRoutableMatch(match)).length;
+    if (!silent) {
+      if (!assignments.length) setStatus("В реестре текущей встречи нет назначений героев.", "err");
+      else if (pendingIdentity.length) setStatus("Zoom обновляет participantUUID после перехода между комнатами: " + pendingIdentity.length + ". Панель повторяет проверку автоматически.", "info");
+      else if (unmatchedJoined.length) setStatus("Вошли без действующей персональной ссылки: " + unmatchedJoined.length + ". Эти подключения не будут распределены. Связано: " + matchedDevices + ".", "err");
+      else if (missingRoster.length) setStatus("Связано " + matchedDevices + ". По списку ещё не вошли: " + missingRoster.length + ".", "info");
+      else setStatus("Готово: все вошедшие участники сопоставлены по participantUUID → hero_id → команда.", "ok");
+    }
+    return participants;
+  }
+
+  async function refreshParticipantsWithRetry(showStatus) {
+    const generation = ++refreshRetryGeneration;
+    for (let attempt = 1; attempt <= 3; attempt += 1) {
+      const participants = await refreshParticipants(true);
+      if (generation !== refreshRetryGeneration) return participants;
+      if (lastConnectionError) {
+        if (showStatus) await refreshParticipants(false);
+        return participants;
+      }
+      const pending = currentMatches.filter((match) => !isRoutableMatch(match) && participantId(match.participant) && !isStaffMatch(match));
+      if (!pending.length) {
+        if (showStatus) setStatus("Готово: все участники с командой сопоставлены по participantUUID → hero_id → команда.", "ok");
+        return participants;
+      }
+      if (attempt < 3) {
+        if (showStatus) setStatus("Обновляю связки Zoom… попытка " + attempt + "/3. Уже распознанные участники не будут ждать остальных.", "info");
+        await wait(500);
+      }
+    }
+    return refreshParticipants(showStatus ? false : true);
+  }
+
+  async function getRooms() {
+    let response;
+    try {
+      response = await withTimeout(zoomSdk.getBreakoutRoomList(), 5000, "getBreakoutRoomList");
+    } catch (error) {
+      const details = describeError(error);
+      if (String(details.code || "") === "10065" || /No Breakout Room exist/i.test(String(details.message || ""))) {
+        return { response: null, rooms: [], state: "none" };
+      }
+      throw error;
+    }
+    return {
+      response,
+      rooms: roomList(response),
+      state: response && (response.state || (response.result && response.result.state))
+    };
+  }
+
+  function breakoutRoomsAreNotReady(error) {
+    const details = describeError(error);
+    return /breakout rooms? (?:are|is) not ready|breakout.*not ready/i.test(
+      [details.message, details.raw, details.code].filter(Boolean).join(" ")
+    );
+  }
+
+  async function retryWhenRoomsArePreparing(operation, label) {
+    let lastError;
+    for (let attempt = 1; attempt <= 30; attempt += 1) {
+      try {
+        return await operation();
+      } catch (error) {
+        lastError = error;
+        if (!breakoutRoomsAreNotReady(error)) throw error;
+        setStatus(label + " — Zoom подготавливает комнаты…", "info");
+        await new Promise((resolve) => setTimeout(resolve, 400));
+      }
+    }
+    throw lastError || new Error("Zoom не подготовил сессионные комнаты за 12 секунд.");
+  }
+
+  async function assignMatchesToRooms(matches, rooms) {
+    const roomsByName = new Map(rooms.map((room) => [normalizeName(room.name), room]));
+    const candidates = matches.filter((match) => {
+      const participantUUID = String(participantId(match.participant) || "");
+      return participantUUID && !isStaffMatch(match) && !assignedToRoom.has(participantUUID);
+    });
+    const assignedNames = [];
+    const failed = [];
+    // Zoom accepts independent participant assignments concurrently.
+    // Twelve keeps the operation fast for ~82 participants without one huge burst.
+    const batchSize = 12;
+
+    for (let offset = 0; offset < candidates.length; offset += batchSize) {
+      const batch = candidates.slice(offset, offset + batchSize);
+      const results = await Promise.allSettled(batch.map(async (match) => {
+        const participantUUID = String(participantId(match.participant) || "");
+        const targetTeam = targetTeamNumber(match);
+        const participantName = participantLabel(match);
+        if (!isValidTeamNumber(targetTeam)) throw new Error("Выберите команду для: " + participantName + ".");
+        const room = roomsByName.get(normalizeName("Команда " + targetTeam));
+        if (!roomId(room)) throw new Error("Не найдена Комната " + targetTeam + " для " + participantName + ".");
+        await retryWhenRoomsArePreparing(
+          () => withTimeout(zoomSdk.assignParticipantToBreakoutRoom({
+            uuid: roomId(room),
+            participant: participantUUID
+          }), 5000, "assignParticipantToBreakoutRoom"),
+          "Назначаю участников"
+        );
+        currentRoomByParticipant.set(participantUUID, Number(targetTeam));
+        assignedToRoom.add(participantUUID);
+        return participantName;
+      }));
+
+      results.forEach((result, index) => {
+        if (result.status === "fulfilled") assignedNames.push(result.value);
+        else failed.push({
+          match: batch[index],
+          name: participantLabel(batch[index]),
+          error: (result.reason && result.reason.message) || String(result.reason)
+        });
+      });
+      if (offset + batchSize < candidates.length) await wait(25);
+    }
+
+    return { assigned: assignedNames.length, names: assignedNames, failed };
+  }
+
+  async function verifyAndRetryRoomTransitions(matches, maxAttempts) {
+    let pending = matches.slice();
+    let lastFailures = [];
+    for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+      await wait(400);
+      const current = await getRooms();
+      syncCurrentRoomAssignments(current.rooms);
+      pending = matches.filter((match) => {
+        const participantUUID = String(participantId(match.participant) || "");
+        return participantUUID && !isStaffMatch(match) && !assignedToRoom.has(participantUUID);
+      });
+      if (!pending.length) return { confirmed: matches.length, pending: [], failures: [] };
+      setStatus(
+        "Zoom ещё не подтвердил переход: " + pending.length + ". Повторяю только для них — попытка " + attempt + "/" + maxAttempts + ".",
+        "info"
+      );
+      const result = await assignMatchesToRooms(pending, current.rooms);
+      lastFailures = result.failed;
+    }
+    const current = await getRooms();
+    syncCurrentRoomAssignments(current.rooms);
+    pending = matches.filter((match) => {
+      const participantUUID = String(participantId(match.participant) || "");
+      return participantUUID && !isStaffMatch(match) && !assignedToRoom.has(participantUUID);
+    });
+    return { confirmed: matches.length - pending.length, pending, failures: lastFailures };
+  }
+
+  async function assignLateArrivalsToOpenRooms() {
+    // Once the operator requests gathering, never fight Zoom during its
+    // 30-second room-closing countdown. A new explicit split resets the guard.
+    if (!ready || gatherRequested || lateAssignBusy || lastConnectionError) return;
+    if (busy) { setTimeout(assignLateArrivalsToOpenRooms, 1000); return; }
+    const lateMatches = currentMatches.filter((match) => {
+      const participantUUID = participantId(match.participant);
+      const role = String((match.participant && match.participant.role) || "").toLowerCase();
+      return !isStaffMatch(match) && participantUUID && isValidTeamNumber(targetTeamNumber(match)) && !assignedToRoom.has(participantUUID);
+    });
+    if (!lateMatches.length) return;
+    lateAssignBusy = true;
+    try {
+      const current = await getRooms();
+      if (current.state !== "open") return;
+      const result = await assignMatchesToRooms(lateMatches, current.rooms);
+      const verified = await verifyAndRetryRoomTransitions(lateMatches, 3);
+      if (!verified.pending.length) {
+        setStatus("Переход в комнату подтверждён: " + result.names.join(", ") + ".", "ok");
+      } else {
+        setStatus("Zoom не подтвердил переход: " + verified.pending.map(participantLabel).join(", ") + ". Панель продолжит повторять автоматически.", "err");
+      }
+    } catch (error) {
+      diag.lastError = describeError(error);
+      renderDiag();
+      setStatus("Опоздавший распознан, но Zoom не добавил его в открытую комнату: " + ((error && error.message) || String(error)), "err");
+    } finally {
+      lateAssignBusy = false;
+    }
+  }
+
+  async function waitForRooms(count) {
+    let last = { rooms: [] };
+    for (let attempt = 0; attempt < 30; attempt += 1) {
+      try {
+        last = await getRooms();
+      } catch (error) {
+        if (!breakoutRoomsAreNotReady(error)) throw error;
+        await new Promise((resolve) => setTimeout(resolve, 400));
+        continue;
+      }
+      if (last.rooms.length >= count) return last;
+      await new Promise((resolve) => setTimeout(resolve, 400));
+    }
+    throw new Error("Zoom не вернул созданные комнаты.");
+  }
+
+  async function sendOneParticipantToRoom(originalParticipantUUID, teamNumber) {
+    if (busy) return;
+    const originalMatch = currentMatches.find(
+      (match) => String(participantId(match.participant) || "") === String(originalParticipantUUID)
+    );
+    const targetHeroId = Number(
+      originalMatch && originalMatch.assignment && originalMatch.assignment.heroId
+    ) || Number(originalMatch && originalMatch.connection && originalMatch.connection.hero_id) || null;
+    const targetLabel = participantLabel(originalMatch);
+    setBusy(true);
+    try {
+      if (!isValidTeamNumber(teamNumber)) throw new Error("Выберите корректную команду.");
+      for (let attempt = 1; attempt <= 3; attempt += 1) {
+        setStatus("Обновляю Zoom ID для " + targetLabel + "… попытка " + attempt + "/3", "info");
+        await refreshParticipantsWithRetry(false);
+        const freshMatch = currentMatches.find((match) => {
+          if (!match.participant || isStaffMatch(match)) return false;
+          const heroId = Number(match.assignment && match.assignment.heroId)
+            || Number(match.connection && match.connection.hero_id)
+            || null;
+          return targetHeroId
+            ? heroId === targetHeroId
+            : String(participantId(match.participant) || "") === String(originalParticipantUUID);
+        });
+        if (!freshMatch) {
+          if (attempt < 3) {
+            await wait(1000);
+            continue;
+          }
+          throw new Error("Zoom не вернул актуальное подключение для " + targetLabel + ". Нажмите «Обновить состав» и повторите.");
+        }
+        const freshParticipantUUID = String(participantId(freshMatch.participant) || "");
+        if (!freshParticipantUUID) throw new Error("Zoom не вернул новый ID участника.");
+        const current = await getRooms();
+        if (current.state !== "open") throw new Error("Сначала откройте breakout rooms.");
+        const room = current.rooms.find((candidate) => normalizeName(candidate.name) === normalizeName("Команда " + teamNumber));
+        if (!roomId(room)) throw new Error("Не найдена Комната " + teamNumber + ".");
+
+        const existingRoom = current.rooms.find((candidate) =>
+          (Array.isArray(candidate.participants) ? candidate.participants : [])
+            .some((participant) => String(participantId(participant) || "") === freshParticipantUUID)
+        );
+        const existingParticipant = existingRoom && (Array.isArray(existingRoom.participants) ? existingRoom.participants : [])
+          .find((participant) => String(participantId(participant) || "") === freshParticipantUUID);
+        if (
+          existingRoom
+          && roomId(existingRoom) === roomId(room)
+          && roomParticipantIsJoined(existingParticipant)
+        ) {
+          pendingRoomByParticipant.set(freshParticipantUUID, Number(teamNumber));
+          const identityKey = manualIdentityKey(freshMatch);
+          if (!identityKey) throw new Error("HERO_ID_REQUIRED_FOR_TEAM_ASSIGNMENT");
+          manualTeamByIdentity.set(identityKey, Number(teamNumber));
+          saveManualTeams();
+          currentRoomByParticipant.set(freshParticipantUUID, Number(teamNumber));
+          assignedToRoom.add(freshParticipantUUID);
+          setStatus(targetLabel + " уже находится в Команде " + teamNumber + ".", "ok");
+          return;
+        }
+
+        // Assign directly to the target room. The previous empty-uuid call was
+        // not a documented unassign operation and could make this button fail.
+        pendingRoomByParticipant.delete(String(originalParticipantUUID));
+        pendingRoomByParticipant.set(freshParticipantUUID, Number(teamNumber));
+        const identityKey = manualIdentityKey(freshMatch);
+        if (!identityKey) throw new Error("HERO_ID_REQUIRED_FOR_TEAM_ASSIGNMENT");
+        manualTeamByIdentity.set(identityKey, Number(teamNumber));
+        saveManualTeams();
+        assignedToRoom.delete(freshParticipantUUID);
+        await retryWhenRoomsArePreparing(
+          () => withTimeout(zoomSdk.assignParticipantToBreakoutRoom({
+            uuid: roomId(room),
+            participant: freshParticipantUUID
+          }), 5000, "assignParticipantToBreakoutRoom"),
+          "Возвращаю участника в Команду " + teamNumber
+        );
+
+        for (let verifyAttempt = 1; verifyAttempt <= 5; verifyAttempt += 1) {
+          await wait(400);
+          const verified = await getRooms();
+          syncCurrentRoomAssignments(verified.rooms);
+          const joined = verified.rooms.some((candidate) =>
+            roomId(candidate) === roomId(room)
+            && (Array.isArray(candidate.participants) ? candidate.participants : [])
+              .some((participant) =>
+                String(participantId(participant) || "") === freshParticipantUUID
+                && roomParticipantIsJoined(participant)
+              )
+          );
+          if (joined) {
+            setStatus(targetLabel + " возвращён в Команду " + teamNumber + ".", "ok");
+            await refreshParticipants(false);
+            return;
+          }
+        }
+      }
+      throw new Error("Zoom не подтвердил вход " + targetLabel + " в Команду " + teamNumber + " после 3 попыток.");
+    } catch (error) {
+      diag.lastError = describeError(error);
+      renderDiag();
+      setStatus((error && error.message) || String(error), "err");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function muteAllParticipants() {
+    if (busy) return;
+    setBusy(true);
+    try {
+      const participants = participantList(await withTimeout(zoomSdk.getMeetingParticipants(), 5000, "getMeetingParticipants"));
+      const participantUUIDs = participants
+        .filter((participant) => {
+          return !isStaffParticipant(participant);
+        })
+        .map(participantId)
+        .filter(Boolean);
+      if (participantUUIDs.length) {
+        await withTimeout(
+          zoomSdk.toggleParticipantMediaAudio({ participantUUIDs, audio: false }),
+          5000,
+          "toggleParticipantMediaAudio"
+        );
+      }
+      setStatus(
+        "Обычные участники замьючены. Host и co-host остались со звуком.",
+        "ok"
+      );
+    } catch (error) {
+      diag.lastError = describeError(error);
+      renderDiag();
+      setStatus("Не удалось замьютить участников: " + ((error && error.message) || String(error)), "err");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  function setVoiceBroadcasting(value) {
+    voiceBroadcasting = Boolean(value);
+    els.voiceBroadcast.className = "voice" + (voiceBroadcasting ? " is-active" : "");
+    els.voiceBroadcast.setAttribute("aria-pressed", String(voiceBroadcasting));
+  }
+
+  async function toggleVoiceBroadcast() {
+    if (busy) return;
+    setBusy(true);
+    const action = voiceBroadcasting ? "stop" : "start";
+    try {
+      const current = await getRooms();
+      if (current.state !== "open") {
+        setVoiceBroadcasting(false);
+        throw new Error("Голосовая трансляция доступна только когда комнаты открыты.");
+      }
+      await withTimeout(
+        zoomSdk.broadcastVoiceToBreakoutRooms({ action }),
+        5000,
+        "broadcastVoiceToBreakoutRooms"
+      );
+      setVoiceBroadcasting(action === "start");
+      setStatus(action === "start"
+        ? "Вы говорите во все комнаты. Зелёная кнопка означает, что трансляция включена."
+        : "Голосовая трансляция во все комнаты остановлена.", "ok");
+    } catch (error) {
+      const message = (error && error.message) || String(error);
+      diag.lastError = describeError(error);
+      renderDiag();
+      if (action === "stop" && /stop broadcast voice.*failed/i.test(message)) {
+        setVoiceBroadcasting(false);
+        setStatus("Трансляция уже остановлена Zoom. Кнопка синхронизирована.", "ok");
+      } else {
+        setStatus("Не удалось изменить голосовую трансляцию: " + message, "err");
+      }
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function splitTeams() {
+    if (busy) return;
+    gatherRequested = false;
+    setBusy(true);
+    try {
+      setStatus("Проверяю участников и команды…", "info");
+      await refreshParticipantsWithRetry(true);
+      if (lastConnectionError) throw lastConnectionError;
+      const enteredParticipants = currentMatches.filter((match) => {
+        const participantUUID = participantId(match.participant);
+        return !isStaffMatch(match) && Boolean(participantUUID);
+      });
+      if (!enteredParticipants.length) throw new Error("В Zoom пока нет вошедших участников для распределения по комнатам.");
+      const participantsToAssign = enteredParticipants.filter((match) => isValidTeamNumber(targetTeamNumber(match)));
+      const participantsWithoutTeam = enteredParticipants.filter((match) => !isValidTeamNumber(targetTeamNumber(match)));
+      if (!participantsToAssign.length) {
+        throw new Error("Пока ни для одного вошедшего участника не определена команда.");
+      }
+      if (participantsWithoutTeam.length) {
+        setStatus("Распределяю распознанных участников. Ожидают ручного выбора команды: " + participantsWithoutTeam.map(participantLabel).join(", ") + ".", "info");
+      }
+
+      const minutes = 20;
+      const teamNumbers = Array.from(new Set(
+        assignments.map((assignment) => Number(assignment.teamNumber))
+          .concat(participantsToAssign.map(targetTeamNumber))
+          .filter(isValidTeamNumber)
+      )).sort((a, b) => a - b);
+      const names = teamNumbers.map((team) => "Команда " + team);
+      let current = await getRooms();
+      if (current.state === "open") {
+        if (!roomTimer) await startRoomTimer(20);
+        const result = await assignMatchesToRooms(participantsToAssign, current.rooms);
+        const verified = await verifyAndRetryRoomTransitions(participantsToAssign, 5);
+        if (!verified.pending.length) {
+          setStatus("Комнаты уже открыты. Zoom подтвердил переход всех " + verified.confirmed + " участников.", "ok");
+        } else {
+          setStatus("Перешли " + verified.confirmed + " из " + participantsToAssign.length + ". Панель продолжит попытки для: " + verified.pending.map(participantLabel).join(", ") + ".", "err");
+        }
+        return;
+      }
+
+      const byName = new Map(current.rooms.map((room) => [normalizeName(room.name), room]));
+      let selected = names.map((name) => byName.get(normalizeName(name)));
+      if (selected.some((room) => !room)) {
+        if (current.rooms.length < names.length) {
+          await withTimeout(zoomSdk.createBreakoutRooms({ numberOfRooms: names.length, assign: "manually", names }), 10000, "createBreakoutRooms");
+          current = await waitForRooms(names.length);
+        }
+        const refreshedByName = new Map(current.rooms.map((room) => [normalizeName(room.name), room]));
+        selected = names.map((name, index) => refreshedByName.get(normalizeName(name)) || current.rooms[index]);
+      }
+
+      if (selected.some((room) => !roomId(room))) throw new Error("Zoom не вернул идентификаторы комнат.");
+
+      await retryWhenRoomsArePreparing(
+        () => withTimeout(zoomSdk.configureBreakoutRooms({
+          allowParticipantsChooseRoom: true,
+          allowParticipantsReturnToMainSession: true,
+          automaticallyMoveParticipantsIntoRooms: true,
+          automaticallyMoveParticipantsIntoMainRoom: true,
+          closeAfter: 0,
+          countDown: 30
+        }), 10000, "configureBreakoutRooms"),
+        "Настраиваю комнаты"
+      );
+
+      assignedToRoom.clear();
+      const initialAssignment = await assignMatchesToRooms(participantsToAssign, current.rooms);
+      if (!initialAssignment.assigned && initialAssignment.failed.length) {
+        throw new Error("Zoom не принял ни одного назначения: " + initialAssignment.failed.map((item) => item.name + " — " + item.error).join("; "));
+      }
+
+      await retryWhenRoomsArePreparing(
+        () => withTimeout(zoomSdk.openBreakoutRooms(), 10000, "openBreakoutRooms"),
+        "Открываю комнаты"
+      );
+      setVoiceBroadcasting(false);
+      await startRoomTimer(minutes);
+      const verified = await verifyAndRetryRoomTransitions(participantsToAssign, 5);
+      if (!verified.pending.length) {
+        setStatus("Комнаты открыты на 20 минут, до " + formatMoscowTime(roomTimer.deadline_at) + ". Zoom подтвердил переход всех " + verified.confirmed + " участников.", "ok");
+      } else {
+        setStatus("Комнаты открыты. Перешли " + verified.confirmed + " из " + participantsToAssign.length + ". Панель продолжит попытки для: " + verified.pending.map(participantLabel).join(", ") + ".", "err");
+      }
+    } catch (error) {
+      diag.lastError = describeError(error);
+      renderDiag();
+      setStatus((error && error.message) || String(error), "err");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function gatherEveryone() {
+    if (busy) return;
+    // Set before the SDK call: background polling must not reassign anyone
+    // during Zoom's 30-second closing countdown.
+    gatherRequested = true;
+    setBusy(true);
+    try {
+      const current = await getRooms();
+      if (current.state !== "open") setStatus("Все уже находятся в общем зале.", "ok");
+      else {
+        setStatus("Закрываю комнаты и возвращаю всех в общий зал…", "info");
+        await withTimeout(zoomSdk.closeBreakoutRooms(), 10000, "closeBreakoutRooms");
+        setVoiceBroadcasting(false);
+        await clearRoomTimer();
+        setStatus("Комнаты закрыты. Все возвращаются в общий зал.", "ok");
+      }
+    } catch (error) {
+      diag.lastError = describeError(error);
+      renderDiag();
+      setStatus((error && error.message) || String(error), "err");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  function withTimeout(promise, timeoutMs, label) {
+    let timer;
+    const timeout = new Promise((_, reject) => {
+      timer = setTimeout(() => reject(new Error(label + " не ответил за " + Math.round(timeoutMs / 1000) + " сек.")), timeoutMs);
+    });
+    return Promise.race([Promise.resolve(promise), timeout]).finally(() => clearTimeout(timer));
+  }
+  const CAPABILITIES = [
+    "getMeetingContext",
+    "getUserContext",
+    "getMeetingParticipants",
+    "toggleParticipantMediaAudio",
+    "broadcastVoiceToBreakoutRooms",
+    "getBreakoutRoomList",
+    "createBreakoutRooms",
+    "addBreakoutRoom",
+    "configureBreakoutRooms",
+    "assignParticipantToBreakoutRoom",
+    "openBreakoutRooms",
+    "closeBreakoutRooms",
+    "onParticipantChange",
+    "onMeetingConfigChanged",
+    "onBreakoutRoomChange"
+  ];
+
+  async function configureZoomSdkWithRetry() {
+    let lastError;
+    diag.stage = "config";
+    for (let attempt = 1; attempt <= 10; attempt += 1) {
+      const started = Date.now();
+      try {
+        const result = await zoomSdk.config({ version: "0.16", capabilities: CAPABILITIES });
+        diag.configAttempts.push({ attempt, ok: true, ms: Date.now() - started });
+        return result;
+      } catch (error) {
+        lastError = error;
+        const info = describeError(error);
+        diag.configAttempts.push({ attempt, ok: false, ms: Date.now() - started, error: info });
+        renderDiag();
+        if (/running in a meeting/i.test(info.message || "")) break;
+        if (attempt < 10) {
+          setStatus("Подключаюсь к встрече Zoom… попытка " + attempt + "/10", "info");
+          await wait(attempt <= 3 ? 500 : 1000);
+        }
+      }
+    }
+    throw lastError || new Error("Не удалось подключить Zoom Apps SDK.");
+  }
+
+
+  function formatMoscowTime(value) {
+    const date = new Date(value);
+    if (!Number.isFinite(date.getTime())) return "—";
+    return new Intl.DateTimeFormat("ru-RU", { timeZone: "Europe/Moscow", hour: "2-digit", minute: "2-digit", second: "2-digit" }).format(date);
+  }
+
+  function timerStorageKey() {
+    const meetingId = String((meetingContext && meetingContext.meetingID) || "").replace(/\D/g, "");
+    const meetingUuid = String((meetingUuidContext && (meetingUuidContext.parentUUID || meetingUuidContext.meetingUUID)) || "").trim();
+    const scope = meetingId || meetingUuid;
+    return scope ? "zoom-universal-room-timer:" + scope : null;
+  }
+
+  function saveRoomTimer() {
+    const key = timerStorageKey();
+    if (!key) return;
+    try {
+      if (roomTimer) localStorage.setItem(key, JSON.stringify(roomTimer));
+      else localStorage.removeItem(key);
+    } catch (error) {
+      diag.timerStorageWarning = describeError(error);
+    }
+  }
+
+  function loadRoomTimer() {
+    const key = timerStorageKey();
+    roomTimer = null;
+    if (!key) return;
+    try {
+      const parsed = JSON.parse(localStorage.getItem(key) || "null");
+      const deadline = parsed && new Date(parsed.deadline_at || 0).getTime();
+      if (parsed && parsed.status === "active" && Number.isFinite(deadline)) roomTimer = parsed;
+      else localStorage.removeItem(key);
+    } catch (error) {
+      // Zoom Apps runs the panel in a sandbox with origin=null on some clients.
+      // localStorage can be unavailable there. Timer state then remains in memory;
+      // storage failure must never stop participant loading.
+      roomTimer = null;
+      diag.timerStorageWarning = describeError(error);
+    }
+  }
+
+  async function timerRequest(action, payload) {
+    const meetingId = String((meetingContext && meetingContext.meetingID) || "").replace(/\D/g, "");
+    const meetingUuid = String((meetingUuidContext && (meetingUuidContext.parentUUID || meetingUuidContext.meetingUUID)) || "").trim();
+    const requesterParticipantUuid = normalizeParticipantUuid(userContext && (userContext.participantId || userContext.participantUUID || userContext.participantUuid));
+    if (!meetingId || !requesterParticipantUuid) throw new Error("SHARED_TIMER_SCOPE_REQUIRED");
+    const response = await withTimeout(fetch(data.timerUrl, {method:"POST",cache:"no-store",credentials:"omit",headers:{"Content-Type":"application/json"},body:JSON.stringify(Object.assign({action,meeting_id:meetingId,meeting_uuid:meetingUuid,requester_participant_uuid:requesterParticipantUuid},payload || {}))}), 5000, "sharedRoomTimer");
+    const result = await response.json();
+    if (!response.ok || !result || result.ok !== true) throw new Error(String(result && result.error || "SHARED_TIMER_REQUEST_FAILED"));
+    return result.timer || null;
+  }
+
+  async function syncSharedRoomTimer(force) {
+    if (sharedTimerSyncBusy || (!force && Date.now() - lastSharedTimerSyncAt < 2500)) return roomTimer;
+    sharedTimerSyncBusy = true;
+    try {
+      roomTimer = await timerRequest("get");
+      lastSharedTimerSyncAt = Date.now();
+      saveRoomTimer();
+      renderRoomTimer();
+      return roomTimer;
+    } finally { sharedTimerSyncBusy = false; }
+  }
+
+  async function startRoomTimer(minutes) {
+    const duration = Number(minutes) > 0 ? Number(minutes) : 20;
+    roomTimer = await timerRequest("start", {minutes: duration});
+    autoClosedDeadline = null;
+    saveRoomTimer();
+    renderRoomTimer();
+  }
+
+  async function clearRoomTimer() {
+    roomTimer = await timerRequest("clear");
+    autoClosedDeadline = null;
+    saveRoomTimer();
+    renderRoomTimer();
+  }
+
+  function renderRoomTimer() {
+    if (!roomTimer) {
+      els.scheduleDuration.textContent = "20 мин";
+      els.scheduleDeadline.textContent = "Стандартное время";
+      els.scheduleWarning.textContent = "После открытия комнат запустится таймер на 20 минут.";
+    } else {
+      const deadline = new Date(roomTimer.deadline_at || 0).getTime();
+      const remaining = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+      const mm = String(Math.floor(remaining / 60)).padStart(2, "0");
+      const ss = String(remaining % 60).padStart(2, "0");
+      els.scheduleDuration.textContent = String(roomTimer.duration_minutes || 20) + " мин";
+      els.scheduleDeadline.textContent = "До " + formatMoscowTime(roomTimer.deadline_at) + " · осталось " + mm + ":" + ss;
+      els.scheduleWarning.textContent = "Локальный таймер этой Zoom-встречи. Продление применяется ко всем командам.";
+    }
+    els.scheduleWarning.className = "schedule-warning";
+    const canExtend = ready && timerOperatorAllowed && !busy && roomTimer && roomTimer.status === "active";
+    els.extend5.disabled = !canExtend;
+    els.extend10.disabled = !canExtend;
+    els.extend20.disabled = !canExtend;
+    els.customMinutes.disabled = !canExtend;
+    els.extendCustom.disabled = !canExtend;
+    diag.timer = roomTimer;
+    renderDiag();
+  }
+
+  async function extendRoomTimer(deltaMinutes) {
+    if (!roomTimer || roomTimer.status !== "active") {
+      setStatus("Сначала откройте комнаты — таймер ещё не запущен.", "err");
+      return;
+    }
+    if (!timerOperatorAllowed) {
+      setStatus("Продлевать время может только организатор или соорганизатор Zoom.", "err");
+      return;
+    }
+    const delta = Number(deltaMinutes);
+    if (!Number.isInteger(delta) || delta < 1 || delta > 720) {
+      setStatus("Введите целое число минут от 1 до 720.", "err");
+      return;
+    }
+    const previousDeadline = new Date(roomTimer.deadline_at || 0).getTime();
+    if (!Number.isFinite(previousDeadline)) {
+      setStatus("Текущий таймер повреждён. Закройте и заново откройте комнаты.", "err");
+      return;
+    }
+    roomTimer = await timerRequest("extend", {minutes: delta, expected_deadline_at: roomTimer.deadline_at});
+    autoClosedDeadline = null;
+    saveRoomTimer();
+    renderRoomTimer();
+    setStatus("Время всех команд продлено на " + delta + " мин. Новый конец: " + formatMoscowTime(roomTimer.deadline_at) + ".", "ok");
+  }
+
+  async function roomTimerTick() {
+    if (!ready) return;
+    await syncSharedRoomTimer(false);
+    renderRoomTimer();
+    const deadline = roomTimer && new Date(roomTimer.deadline_at || 0).getTime();
+    if (!roomTimer || roomTimer.status !== "active" || !Number.isFinite(deadline) || Date.now() < deadline) return;
+    if (autoCloseInFlight || autoClosedDeadline === roomTimer.deadline_at) return;
+    autoCloseInFlight = true;
+    gatherRequested = true;
+    const closingDeadline = roomTimer.deadline_at;
+    try {
+      const current = await getRooms();
+      if (current.state === "open") {
+        await withTimeout(zoomSdk.closeBreakoutRooms(), 10000, "closeBreakoutRooms");
+        setVoiceBroadcasting(false);
+        setStatus("20 минут и все добавленные минуты закончились. Комнаты закрыты.", "ok");
+      }
+      autoClosedDeadline = closingDeadline;
+      await clearRoomTimer();
+    } catch (error) {
+      diag.lastError = describeError(error);
+      setStatus("Не удалось автоматически закрыть комнаты: " + ((error && error.message) || String(error)), "err");
+    } finally {
+      autoCloseInFlight = false;
+    }
+  }
+
+  async function backgroundRefresh() {
+    if (!ready || busy || backgroundRefreshBusy) return;
+    backgroundRefreshBusy = true;
+    try {
+      await refreshParticipants(false);
+      await assignLateArrivalsToOpenRooms();
+    } catch (error) {
+      diag.lastError = describeError(error);
+      renderDiag();
+      setStatus("Соединение с Zoom временно потеряно. Панель повторит подключение автоматически.", "info");
+    } finally {
+      backgroundRefreshBusy = false;
+    }
+  }
+
+  async function init() {
+    renderDiag();
+    if (!window.zoomSdk) {
+      diag.stage = window.__zoomSdkScriptError ? "script_load" : "sdk_missing";
+      diag.sdkScriptError = window.__zoomSdkScriptError === true;
+      renderDiag();
+      setStatus(window.__zoomSdkScriptError
+        ? "Этап script_load: скрипт https://appssdk.zoom.us/sdk.min.js не загрузился. Проверьте Domain Allow List приложения и сеть."
+        : "Этап sdk_missing: скрипт загружен, но window.zoomSdk нет. Откройте панель внутри встречи Zoom под организатором.", "err");
+      return;
+    }
+    setStatus("Подключаюсь к встрече Zoom…", "info");
+    let configResult;
+    try {
+      configResult = await configureZoomSdkWithRetry();
+    } catch (error) {
+      diag.lastError = describeError(error);
+      renderDiag();
+      setStatus("Этап config не пройден: Zoom Apps SDK не подключился. " + (diag.lastError.message || "Без текста ошибки") + ". Подробности в блоке «Диагностика».", "err");
+      return;
+    }
+    diag.configResult = {
+      runningContext: configResult && configResult.runningContext,
+      clientVersion: configResult && configResult.clientVersion,
+      unsupportedApis: configResult && configResult.unsupportedApis
+    };
+    meetingContext = null;
+    meetingUuidContext = null;
+    userContext = null;
+    timerOperatorAllowed = false;
+    diag.meetingScopeSource = "meeting_registry";
+    diag.meetingContext = { meeting: meetingContext, uuid: null, userRole: null };
+    diag.stage = "configured";
+    try {
+      const sdkMeetingContext = await withTimeout(zoomSdk.getMeetingContext(), 5000, "getMeetingContext");
+      currentMeetingId = String(sdkMeetingContext && (sdkMeetingContext.meetingID || sdkMeetingContext.meetingId || sdkMeetingContext.meetingNumber) || "").replace(/\D/g, "");
+      meetingContext = {...(sdkMeetingContext || {}), meetingID: currentMeetingId};
+      meetingUuidContext = sdkMeetingContext || null;
+      diag.meetingScopeSource = "zoom_sdk";
+      diag.meetingContext = meetingContext;
+    } catch (error) {
+      diag.lastError = describeError(error);
+    }
+    if (!currentMeetingId) {
+      renderDiag();
+      setStatus("Zoom не вернул meeting_id текущей встречи. Панель остановлена без попытки сопоставления.", "err");
+      return;
+    }
+    if (typeof zoomSdk.getUserContext !== "function") {
+      timerOperatorAllowed = false;
+      diag.userContextWarning = {message:"getUserContext недоступен; защищённая панель остановлена"};
+      diag.timerAuthorization = "unsupported_fail_closed";
+      renderDiag();
+      setStatus("Zoom не подтвердил роль организатора. Данные участников не запрашивались.", "err");
+      return;
+    }
+    try {
+      userContext = await withTimeout(Promise.resolve().then(() => zoomSdk.getUserContext()), 3000, "getUserContext");
+      const role = String(userContext && userContext.role || "").trim().toLowerCase();
+      const requesterParticipantUuid = normalizeParticipantUuid(userContext && (userContext.participantId || userContext.participantUUID || userContext.participantUuid));
+      timerOperatorAllowed = role === "host" || role === "cohost";
+      diag.meetingContext.userRole = userContext && userContext.role || null;
+      diag.timerAuthorization = timerOperatorAllowed ? "verified_host_or_cohost" : "denied_role_" + (role || "unknown");
+      if (!timerOperatorAllowed || !requesterParticipantUuid) {
+        renderRoomTimer();
+        renderDiag();
+        setStatus("Панель доступна только подтверждённому организатору или соорганизатору Zoom.", "err");
+        return;
+      }
+    } catch (error) {
+      timerOperatorAllowed = false;
+      diag.userContextWarning = describeError(error);
+      diag.timerAuthorization = "unavailable_fail_closed";
+      renderRoomTimer();
+      renderDiag();
+      setStatus("Не удалось подтвердить роль организатора. Данные участников не запрашивались.", "err");
+      return;
+    }
+    ready = true;
+    try {
+      loadManualTeams();
+      loadRoomTimer();
+      await syncSharedRoomTimer(true);
+      renderRoomTimer();
+    } catch (error) {
+      roomTimer = null;
+      diag.timerBootstrapWarning = describeError(error);
+      renderDiag();
+    }
+    setBusy(false);
+    setStatus("Zoom SDK подключён. Загружаю участников и связки…", "info");
+    try {
+      await refreshParticipantsWithRetry(true);
+    } catch (error) {
+      diag.lastError = describeError(error);
+      renderDiag();
+      setStatus("Этап " + diag.stage + " не пройден: Zoom SDK подключён, но данные не получены. " + ((error && error.message) || String(error)), "err");
+    }
+    const onChange = () => {
+      refreshParticipantsWithRetry(true)
+        .then(assignLateArrivalsToOpenRooms)
+        .catch((error) => {
+          diag.lastError = describeError(error);
+          renderDiag();
+          setStatus("Zoom обновляет связь участника после перехода между комнатами…", "info");
+        });
+    };
+    if (zoomSdk.onParticipantChange) zoomSdk.onParticipantChange(onChange);
+    if (zoomSdk.onMeetingConfigChanged) zoomSdk.onMeetingConfigChanged(onChange);
+    if (zoomSdk.onBreakoutRoomChange) zoomSdk.onBreakoutRoomChange(onChange);
+    setInterval(backgroundRefresh, 3000);
+    setInterval(roomTimerTick, 1000);
+    window.addEventListener("online", backgroundRefresh);
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") backgroundRefresh();
+    });
+  }
+
+  function showTimerError(error) { diag.lastError = describeError(error); renderDiag(); setStatus("Не удалось обновить общий таймер: " + ((error && error.message) || String(error)), "err"); }
+
+  els.split.addEventListener("click", splitTeams);
+  els.gather.addEventListener("click", gatherEveryone);
+  els.muteAll.addEventListener("click", muteAllParticipants);
+  els.voiceBroadcast.addEventListener("click", toggleVoiceBroadcast);
+  els.extend5.addEventListener("click", () => extendRoomTimer(5).catch(showTimerError));
+  els.extend10.addEventListener("click", () => extendRoomTimer(10).catch(showTimerError));
+  els.extend20.addEventListener("click", () => extendRoomTimer(20).catch(showTimerError));
+  els.extendCustom.addEventListener("click", () => {
+    const value = Number(els.customMinutes.value);
+    extendRoomTimer(value).catch(showTimerError);
+    if (Number.isInteger(value) && value > 0 && value <= 720) els.customMinutes.value = "";
+  });
+  els.customMinutes.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") els.extendCustom.click();
+  });
+  els.list.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-send-one-uuid]");
+    if (!button) return;
+    const participantUUID = button.getAttribute("data-send-one-uuid");
+    const select = button.parentElement && button.parentElement.querySelector("select");
+    const teamNumber = Number(select ? select.value : button.getAttribute("data-send-one-team"));
+    if (participantUUID && Number.isInteger(teamNumber)) sendOneParticipantToRoom(participantUUID, teamNumber);
+  });
+  els.refresh.addEventListener("click", () => refreshParticipantsWithRetry(true).then(assignLateArrivalsToOpenRooms).catch((error) => { diag.lastError = describeError(error); renderDiag(); setStatus((error && error.message) || String(error), "err"); }));
+  els.list.addEventListener("change", (event) => {
+    const recognizedSelect = event.target.closest("[data-team-target-uuid]");
+    if (recognizedSelect) {
+      const participantUUID = recognizedSelect.getAttribute("data-team-target-uuid");
+      const targetTeam = Number(recognizedSelect.value);
+      if (participantUUID && Number.isInteger(targetTeam)) {
+        pendingRoomByParticipant.set(participantUUID, targetTeam);
+        const selectedMatch = currentMatches.find(match => String(participantId(match.participant) || "") === String(participantUUID));
+        const identityKey = manualIdentityKey(selectedMatch);
+        if (!identityKey) throw new Error("HERO_ID_REQUIRED_FOR_TEAM_ASSIGNMENT");
+        manualTeamByIdentity.set(identityKey, targetTeam);
+        saveManualTeams();
+        assignedToRoom.delete(participantUUID);
+        setStatus("Выбор сохранён: участник будет распределён в Команду " + targetTeam + " после нажатия общей кнопки «Разделить по комнатам».", "info");
+      }
+      return;
+    }
+    const manualSelect = event.target.closest("[data-manual-team-uuid]");
+    if (!manualSelect) return;
+    const participantUUID = manualSelect.getAttribute("data-manual-team-uuid");
+    const targetTeam = Number(manualSelect.value);
+    if (participantUUID && Number.isInteger(targetTeam)) {
+      pendingRoomByParticipant.set(participantUUID, targetTeam);
+      const selectedMatch = currentMatches.find(match => String(participantId(match.participant) || "") === String(participantUUID));
+      const identityKey = manualIdentityKey(selectedMatch);
+      if (!identityKey) throw new Error("HERO_ID_REQUIRED_FOR_TEAM_ASSIGNMENT");
+      manualTeamByIdentity.set(identityKey, targetTeam);
+      saveManualTeams();
+      assignedToRoom.delete(participantUUID);
+      const actionArea = manualSelect.closest(".participant-actions");
+      const returnButton = actionArea && actionArea.querySelector("button.send-one");
+      if (returnButton) {
+        returnButton.disabled = false;
+        returnButton.textContent = "Вернуть в комнату";
+        returnButton.setAttribute("data-send-one-uuid", participantUUID);
+        returnButton.setAttribute("data-send-one-team", String(targetTeam));
+      }
+      setStatus("Выбор сохранён: участник будет распределён в Команду " + targetTeam + " после нажатия общей кнопки «Разделить по комнатам».", "info");
+    }
+  });
+  init();
+})();}var script=document.createElement('script');script.src='https://appssdk.zoom.us/sdk.min.js';script.async=true;script.onload=start;script.onerror=function(){window.__zoomSdkScriptError=true;start();};document.head.appendChild(script);timer=setTimeout(function(){if(started)return;started=true;window.__zoomSdkScriptError=true;var status=document.getElementById('status');var diag=document.getElementById('diag');if(status){status.className='status err';status.textContent='Этап script_load: Zoom Apps SDK не загрузился за 8 секунд. Закройте и снова откройте панель; если ошибка повторится, проверьте Domain Allow List приложения.';}if(diag){diag.textContent=JSON.stringify({stage:'script_load_timeout',sdkUrl:script.src},null,2);}},8000);}());</script></body></html>
